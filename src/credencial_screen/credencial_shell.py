@@ -1,11 +1,18 @@
 from pwinput import pwinput
+from .check_login import login_check
 
 
 class CredencialScreen:
     def __init__(self):
         pass
 
-    def SingIn(self, user_cpf: str, user_senha: str):
+    def SingIn(self, user_cpf: str, user_senha: str, interface=False):
+        if interface == False:
+            cpf = input("Digite seu cpf:")
+            senha = input("Digite sua senha:")
+        else:
+            cpf = user_cpf
+            senha = user_senha
         pass
 
     def SingUp(self):
@@ -38,6 +45,9 @@ class CredencialScreen:
 
             if user_confirmar_registro.lower() == "s":
                 confirmar_registro = True
+                login_check.register(
+                    user_nome_completo, user_cpf, user_email, user_senha
+                )
                 print("Terminando registro!")
                 break
 

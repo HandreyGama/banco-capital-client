@@ -1,5 +1,6 @@
 from src.credencial_screen import credencial_shell
 from src.credencial_screen.credencial_shell import CredencialScreen
+from src.credencial_screen.check_login import login_check
 
 
 class Shell:
@@ -10,7 +11,7 @@ class Shell:
     def CredencialScreen(self):
         credencial_screen = CredencialScreen()
         credencial_screen.SingUp()
-        self.estado == 'MenuPrincipal'
+        self.estado == "MenuPrincipal"
 
     def SairShell(self):
         print("Saindo do banco!")
@@ -23,9 +24,10 @@ class Shell:
             user_input = input("Digite o numero de uma das opções:")
             if user_input == "2":
                 print("===" + " INICIANDO CADASTRO " + "===")
-                self.estado = 'MenuPrincipal'
+                self.estado = "MenuPrincipal"
                 self.CredencialScreen()
             if user_input == "3":
+                login_check.close_conection()
                 self.SairShell()
 
 
