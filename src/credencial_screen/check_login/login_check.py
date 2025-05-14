@@ -2,7 +2,7 @@ import socket
 import json
 import time
 
-HOST = "192.168.0.16"
+HOST = "server ip"
 PORT = 14532
 
 username = socket.gethostbyname(socket.gethostname())
