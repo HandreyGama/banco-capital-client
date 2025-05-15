@@ -1,5 +1,5 @@
 from pwinput import pwinput
-from .check_login import login_check
+from ..credencial_screen.server_handler import server_requests
 
 
 class CredencialScreen:
@@ -45,7 +45,7 @@ class CredencialScreen:
 
             if user_confirmar_registro.lower() == "s":
                 confirmar_registro = True
-                login_check.register(
+                server_requests.client_register(
                     user_nome_completo, user_cpf, user_email, user_senha
                 )
                 print("Terminando registro!")

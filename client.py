@@ -1,6 +1,6 @@
 from src.credencial_screen import credencial_shell
 from src.credencial_screen.credencial_shell import CredencialScreen
-from src.credencial_screen.check_login import login_check
+from src.credencial_screen.server_handler import server_requests
 
 
 class Shell:
@@ -27,7 +27,7 @@ class Shell:
                 self.estado = "MenuPrincipal"
                 self.CredencialScreen()
             if user_input == "3":
-                login_check.close_conection()
+                server_requests.close_conection()
                 self.SairShell()
 
 
