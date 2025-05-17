@@ -3,7 +3,7 @@ import json
 import time
 from ..server_handler.server_operations import *
 
-HOST = "server ip"
+HOST = "192.168.0.16"
 PORT = 14532
 
 username = socket.gethostbyname(socket.gethostname())
@@ -19,19 +19,22 @@ OPERATION = "NONE"
 
 
 def client_register(nome, cpf, email, senha) -> None:
-    OPERATION = CLIENT_LOGIN
+    OPERATION = CLIENT_REGISTER
     data = {"nome": nome, "cpf": cpf, "email": email, "senha": senha}
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))
 
 
-def client_login(cpf, senha) -> None:
+def client_login(cpf, senha):
     OPERATION = CLIENT_LOGIN
     data = {"cpf": cpf, "senha": senha}
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))
+    client_exists = client.recv(1024).decode("utf-8") == "True"
+    client_index = int(client.recv(1024).decode("utf-8"))
+    return client_exists, client_index
 
 
 def close_conection():

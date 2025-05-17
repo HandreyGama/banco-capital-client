@@ -6,14 +6,33 @@ class CredencialScreen:
     def __init__(self):
         pass
 
-    def SingIn(self, user_cpf: str, user_senha: str, interface=False):
-        if interface == False:
+    def SingIn(self) -> tuple[bool, int]:
+        confirmar_login = False
+
+        while confirmar_login == False:
             cpf = input("Digite seu cpf:")
-            senha = input("Digite sua senha:")
-        else:
-            cpf = user_cpf
-            senha = user_senha
-        pass
+            senha = pwinput("Digite sua senha:")
+            checar_informacoes_login = input("As informações estão corretas?(S/N):")
+
+            if checar_informacoes_login.lower() == "s":
+                confirmar_login = True
+                is_client_in_database, client_index = server_requests.client_login(cpf, senha)
+                return is_client_in_database, client_index
+            elif checar_informacoes_login.lower() == "n":
+                continuar_login = input("Deseja continuar o login?(S/N):")
+
+                if continuar_login.lower() == "s":
+                    continue
+
+                elif continuar_login.lower() == "n":
+                    break
+
+                else:
+                    print("[ERRO] digite uma opção valida!")
+            else:
+                print("[ERRO] digite uma opção valida!")
+        return False,0
+
 
     def SingUp(self):
         confirmar_registro = False
