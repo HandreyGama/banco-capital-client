@@ -20,6 +20,7 @@ class Shell:
         client_information = credencial_screen.SingIn()
         print(client_information)
         if client_information[0] == True:
+            bank_menu.user_index = client_information[1]
             bank_menu.main()
         elif client_information[0] == False:
             print("[ERRO] cpf ou senha invalidas!")

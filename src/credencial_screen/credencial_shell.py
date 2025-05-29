@@ -16,7 +16,9 @@ class CredencialScreen:
 
             if checar_informacoes_login.lower() == "s":
                 confirmar_login = True
-                is_client_in_database, client_index = server_requests.client_login(cpf, senha)
+                is_client_in_database, client_index = server_requests.client_login(
+                    cpf, senha
+                )
                 return is_client_in_database, client_index
             elif checar_informacoes_login.lower() == "n":
                 continuar_login = input("Deseja continuar o login?(S/N):")
@@ -31,8 +33,7 @@ class CredencialScreen:
                     print("[ERRO] digite uma opção valida!")
             else:
                 print("[ERRO] digite uma opção valida!")
-        return False,0
-
+        return False, 0
 
     def SingUp(self):
         confirmar_registro = False

@@ -3,8 +3,9 @@ import json
 import time
 from ..server_handler.server_operations import *
 
-HOST = "192.168.0.16"
-PORT = 14532
+HOST = "127.0.0.1"
+PORT = 8080
+
 
 username = socket.gethostbyname(socket.gethostname())
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,5 +38,31 @@ def client_login(cpf, senha):
     return client_exists, client_index
 
 
+def client_tranferencia(user_index, valor_transferencia, numero_conta):
+    transfer_status = False
+    OPERATION = CLIENT_TRANSFER
+    data = {
+        "user_index": user_index,
+        "valor_transferencia": valor_transferencia,
+        "numero_conta": numero_conta,
+    }
+    client.send(OPERATION.encode("utf-8"))
+    time.sleep(1)
+    client.send(json.dumps(data).encode("utf-8"))
+    transferencia_status = client.recv(1024).decode("utf-8")
+    if transferencia_status == "sucess":
+        print("transferencia feita com sucesso")
+        transfer_status = True
+    else:
+        print("Erro na transferencia")
+        transfer_status = False
+    return transfer_status
+def client_informacoes(user_id):
+    OPERATION = CLIENT_INFO 
+    client.send(OPERATION.encode('utf-8'))
+    time.sleep(1)
+    client.send(f'{user_id}'.encode('utf-8'))
+    client_return_info = client.recv(1024).decode('utf-8')
+    return json.loads(client_return_info)
 def close_conection():
     client.close()
