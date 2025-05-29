@@ -2,7 +2,7 @@ import socket
 import json
 import time
 from .server_operations import *
-
+from src.view.assets.foto_perfil import *
 HOST = "proxy19.rt3.io"
 PORT = 32752
 
@@ -19,7 +19,7 @@ except:
 OPERATION = "NONE"
 
 
-def client_register(nome, cpf, email, senha, data_nasc) -> None:
+def client_register(nome, cpf, email, senha, data_nasc, foto_perfil) -> None:
     OPERATION = CLIENT_REGISTER
     data = {
         "nome": nome, 
@@ -28,7 +28,7 @@ def client_register(nome, cpf, email, senha, data_nasc) -> None:
         "senha": senha,
         "data_nasc": data_nasc,
         "transferencias": {},
-        "foto_perfil": {} #Ainda vou ajeitar para que o usuário pegue uma foto aleatória
+        "foto_perfil": foto_perfil
         }
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)

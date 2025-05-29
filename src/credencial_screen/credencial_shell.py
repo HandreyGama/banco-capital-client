@@ -4,6 +4,7 @@ import re
 import os
 from datetime import datetime
 import readchar
+from ..view.assets.foto_perfil.avatar import atribuir_imagem_aleatoria
 
 
 def validar_nome(user_nome_completo):
@@ -178,7 +179,11 @@ class CredencialScreen:
                 confirmar_registro = True
 
                 server_requests.client_register(
-                    user_nome_completo, user_cpf, user_email, user_senha, user_data_nasc
+                    user_nome_completo, 
+                    user_cpf, user_email, 
+                    user_senha, 
+                    user_data_nasc, 
+                    foto_perfil= atribuir_imagem_aleatoria()
                 )
 
                 print("Terminando registro!")
