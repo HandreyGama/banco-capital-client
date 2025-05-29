@@ -3,8 +3,8 @@ import json
 import time
 from .server_operations import *
 
-HOST = "127.0.0.1"
-PORT = 8080
+HOST = "proxy19.rt3.io"
+PORT = 32752
 
 
 username = socket.gethostbyname(socket.gethostname())
