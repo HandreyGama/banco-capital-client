@@ -19,9 +19,17 @@ except:
 OPERATION = "NONE"
 
 
-def client_register(nome, cpf, email, senha) -> None:
+def client_register(nome, cpf, email, senha, data_nasc) -> None:
     OPERATION = CLIENT_REGISTER
-    data = {"nome": nome, "cpf": cpf, "email": email, "senha": senha}
+    data = {
+        "nome": nome, 
+        "cpf": cpf, 
+        "email": email, 
+        "senha": senha,
+        "data_nasc": data_nasc,
+        "transferencias": {},
+        "foto_perfil": {} #Ainda vou ajeitar para que o usuário pegue uma foto aleatória
+        }
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))
