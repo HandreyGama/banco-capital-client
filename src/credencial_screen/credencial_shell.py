@@ -50,7 +50,7 @@ def input_data_nascimento():
 
             if idade >= 18:
                 print(f"\nData de nascimento válida: {data_str}")
-                return True
+                return True and data_str
 
             else:
                 print("\n[ERRO] Usuário menor de 18 anos.")
@@ -96,36 +96,31 @@ class CredencialScreen:
         while confirmar_login == False:
             cpf = input("Digite seu cpf:")
             senha = pwinput("Digite sua senha:")
+            checar_informacoes_login = input("As informações estão corretas?(S/N):")
 
-            if not validar_cpf(cpf):
-                print("[ERRO] CPF inválido.")
+            if checar_informacoes_login.lower() == "s":
+                confirmar_login = True
 
-            else:
-                checar_informacoes_login = input("As informações estão corretas?(S/N):")
+                is_client_in_database, client_index = server_requests.client_login(
+                    cpf, senha
+                )
 
-                if checar_informacoes_login.lower() == "s":
-                    confirmar_login = True
+                return is_client_in_database, client_index
 
-                    is_client_in_database, client_index = server_requests.client_login(
-                        cpf, senha
-                    )
+            elif checar_informacoes_login.lower() == "n":
+                continuar_login = input("Deseja continuar o login?(S/N):")
 
-                    return is_client_in_database, client_index
+                if continuar_login.lower() == "s":
+                    continue
 
-                elif checar_informacoes_login.lower() == "n":
-                    continuar_login = input("Deseja continuar o login?(S/N):")
-
-                    if continuar_login.lower() == "s":
-                        continue
-
-                    elif continuar_login.lower() == "n":
-                        break
-
-                    else:
-                        print("[ERRO] digite uma opção valida!")
+                elif continuar_login.lower() == "n":
+                    break
 
                 else:
                     print("[ERRO] digite uma opção valida!")
+
+            else:
+                print("[ERRO] digite uma opção valida!")
 
         return False, 0
 
