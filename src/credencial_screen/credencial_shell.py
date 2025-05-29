@@ -1,5 +1,5 @@
 from pwinput import pwinput
-from ..credencial_screen.server_handler import server_requests
+from .server_handler import server_requests
 
 
 class CredencialScreen:

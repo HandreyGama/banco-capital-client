@@ -22,7 +22,7 @@ def bank_menu():
     if user_input == "1":
         user_info = client_informacoes(user_index)
         for i in user_info:
-            print(f'{i}:{user_info[i]}')
+            print(f"{i}:{user_info[i]}")
         pass
     elif user_input == "2":
         while True:
@@ -35,8 +35,8 @@ def bank_menu():
                 print("[ERRO] Valor inválido, digite novamente.")
                 continue
             status = client_tranferencia(user_index, valor_transferencia, numero_conta)
-            if(status == True):
-                break;
+            if status == True:
+                break
             else:
                 print("[ERRO] transferencia não foi bem sucessida")
 

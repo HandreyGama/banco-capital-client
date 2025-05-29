@@ -1,7 +1,7 @@
 import socket
 import json
 import time
-from ..server_handler.server_operations import *
+from .server_operations import *
 
 HOST = "127.0.0.1"
 PORT = 8080
@@ -57,12 +57,16 @@ def client_tranferencia(user_index, valor_transferencia, numero_conta):
         print("Erro na transferencia")
         transfer_status = False
     return transfer_status
+
+
 def client_informacoes(user_id):
-    OPERATION = CLIENT_INFO 
-    client.send(OPERATION.encode('utf-8'))
+    OPERATION = CLIENT_INFO
+    client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
-    client.send(f'{user_id}'.encode('utf-8'))
-    client_return_info = client.recv(1024).decode('utf-8')
+    client.send(f"{user_id}".encode("utf-8"))
+    client_return_info = client.recv(1024).decode("utf-8")
     return json.loads(client_return_info)
+
+
 def close_conection():
     client.close()
