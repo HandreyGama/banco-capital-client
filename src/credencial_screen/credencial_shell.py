@@ -1,5 +1,5 @@
 from pwinput import pwinput
-from server_handler import server_requests
+from .server_handler import server_requests
 import re
 import os
 from datetime import datetime
