@@ -21,17 +21,26 @@ def bank_menu():
     user_input = input("Digite uma das opções acima:")
     if user_input == "1":
         user_info = client_informacoes(user_index)
+        print("=" * 6 + " DADOS BANCARIOS DO USUARIO " + "=" * 6)
+        print("\n")
         for i in user_info:
-            print(f"{i}:{user_info[i]}")
-        pass
+            if i == "transferencias" or i == "foto_perfil":
+                continue
+            print(f"* {i}: {user_info[i]}")
+        print("\n")
     elif user_input == "2":
         while True:
+            valor_transferencia_invalido = False
             numero_conta = input("Informe o número de conta:")
             if numero_conta.isnumeric() == False:
                 print("[ERRO] Número de conta inválido, digite novamente.")
                 continue
             valor_transferencia = input("Informe o valor da transferência:")
-            if valor_transferencia.isnumeric() == False:
+            try:
+                float(valor_transferencia)
+            except:
+                valor_transferencia_invalido = True
+            if valor_transferencia_invalido == True:
                 print("[ERRO] Valor inválido, digite novamente.")
                 continue
             status = client_tranferencia(user_index, valor_transferencia, numero_conta)

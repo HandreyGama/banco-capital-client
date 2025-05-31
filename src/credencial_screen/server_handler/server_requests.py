@@ -2,7 +2,12 @@ import socket
 import json
 import time
 from .server_operations import *
+<<<<<<< HEAD
 from ...view.assets.default_photos import *
+=======
+from src.view.assets.foto_perfil import *
+
+>>>>>>> 143dcb1c1f4ccb4f92549dd00e73e0a438f15b4e
 HOST = "127.0.0.1"
 PORT = 69
 
@@ -22,14 +27,14 @@ OPERATION = "NONE"
 def client_register(nome, cpf, email, senha, data_nasc, foto_perfil) -> None:
     OPERATION = CLIENT_REGISTER
     data = {
-        "nome": nome, 
-        "cpf": cpf, 
-        "email": email, 
+        "nome": nome,
+        "cpf": cpf,
+        "email": email,
         "senha": senha,
         "data_nasc": data_nasc,
-        "transferencias": {},
-        "foto_perfil": foto_perfil
-        }
+        "transferencias": [],
+        "foto_perfil": foto_perfil,
+    }
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))
