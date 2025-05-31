@@ -1,4 +1,4 @@
-from interface import LoginApp
+from inicio import LoginApp
 from dashboard import Dashboard
 
 class AppController:

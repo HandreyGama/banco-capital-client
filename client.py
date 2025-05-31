@@ -3,6 +3,9 @@ from src.credencial_screen import credencial_shell
 from src.credencial_screen.credencial_shell import CredencialScreen
 from src.credencial_screen.server_handler import server_requests
 from src.bank_screen_options import bank_menu
+from src.view.controller import AppController
+from src.view.inicio import LoginApp
+from src.view.dashboard import Dashboard
 
 
 class Shell:
@@ -49,6 +52,15 @@ class Shell:
                 server_requests.close_conection()
                 self.SairShell()
 
+              
+        
+    def run(self):
+            self.app.mainloop()
 
 shell = Shell()
 shell.MenuPrincipal()
+
+
+if __name__ == "__main__":
+   app = AppController()
+   app.run()

@@ -11,7 +11,6 @@ class Dashboard:
         self.app.geometry("1224x664")
         self.app.title("Dashboard - Banco CAPITAL")
         self.app.minsize(1224, 664)
-
         # Cores
         self.BLACK_BG = "#0a0a0a"
         self.DOURADO_BANCO_CAPITAL = "#C9A358"
@@ -150,5 +149,5 @@ class Dashboard:
         self.app.mainloop()
 
 if __name__ == "__main__":
-    app = dashboard()
+    app = Dashboard()
     app.run()
