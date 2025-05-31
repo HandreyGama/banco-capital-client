@@ -1,7 +1,7 @@
 import os
 import random
 
-pasta_imagens = "src/view/assets/foto_perfil/"
+pasta_imagens = "src/view/assets/default_photos"
 
 
 imagens_disponiveis = [

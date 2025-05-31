@@ -2,8 +2,10 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-from dashboard import Dashboard
+
+# ✅ Importação corrigida para funcionar com execução como pacote
 from ..credencial_screen.server_handler.server_requests import client_login
+
 # Configuração inicial
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
@@ -29,37 +31,20 @@ class LoginApp:
         self.SECONDARY_TEXT = "#a0a0a0"
         BORDA_PRETA = "#000000"
 
-        frame = ctk.CTkFrame(
-            master=self.app,
-            fg_color=self.DARK_BG,
-            corner_radius=20
-        )
+        frame = ctk.CTkFrame(master=self.app, fg_color=self.DARK_BG, corner_radius=20)
         frame.pack(pady=30, padx=30, fill="both", expand=True)
 
-        left_frame = ctk.CTkFrame(
-            master=frame,
-            width=200,
-            corner_radius=0,
-            fg_color=self.DARK_BG
-        )
+        left_frame = ctk.CTkFrame(master=frame, width=200, corner_radius=0, fg_color=self.DARK_BG)
         left_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
-        self.right_frame = ctk.CTkFrame(
-            master=frame,
-            fg_color=self.DARK_FRAME,
-            corner_radius=20
-        )
+        self.right_frame = ctk.CTkFrame(master=frame, fg_color=self.DARK_FRAME, corner_radius=20)
         self.right_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
         try:
             qr_img = Image.open("src/view/assets/logotype/banco-capital.png")
             qr_img = qr_img.resize((150, 200))
             qr_img = ImageTk.PhotoImage(qr_img)
-            qr_label = tk.Label(
-                left_frame,
-                image=qr_img,
-                bg=self.DARK_BG
-            )
+            qr_label = tk.Label(left_frame, image=qr_img, bg=self.DARK_BG)
             qr_label.image = qr_img
             qr_label.pack(pady=(40, 10))
         except:
@@ -91,11 +76,7 @@ class LoginApp:
         )
         self.cpf_entry.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
-        senha_container = ctk.CTkFrame(
-            self.right_frame,
-            fg_color="transparent",
-            bg_color="transparent"
-        )
+        senha_container = ctk.CTkFrame(self.right_frame, fg_color="transparent")
         senha_container.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
         senha_border_frame = ctk.CTkFrame(
@@ -111,7 +92,7 @@ class LoginApp:
             senha_border_frame,
             placeholder_text="Senha",
             show="*",
-            width=CAMPO_WIDTH-30,
+            width=CAMPO_WIDTH - 30,
             fg_color=self.DARKER_BG,
             border_width=0,
             text_color=self.TEXT_COLOR
@@ -133,7 +114,7 @@ class LoginApp:
 
         login_button = ctk.CTkButton(
             self.right_frame,
-            text="Login", 
+            text="Login",
             width=CAMPO_WIDTH,
             fg_color="white",
             hover_color="gray",
@@ -144,10 +125,7 @@ class LoginApp:
         )
         login_button.pack(padx=CAMPO_PADX)
 
-        botoes_frame = ctk.CTkFrame(
-            self.right_frame,
-            fg_color=self.DARK_FRAME
-        )
+        botoes_frame = ctk.CTkFrame(self.right_frame, fg_color=self.DARK_FRAME)
         botoes_frame.pack(pady=10)
 
         esquecisenha = ctk.CTkButton(
@@ -188,10 +166,10 @@ class LoginApp:
             messagebox.showwarning("Atenção", "Por favor, preencha todos os campos!")
             return
 
-        if client_login(self.cpf_entry, self.senha_entry) == True:
+        # ✅ Usa a função de login e o controller para trocar a tela
+        if client_login(cpf, senha):
+            self.app.destroy()
             self.controller.abrir_dashboard()
-
-            
         else:
             messagebox.showerror("Erro", "CPF ou senha incorretos!")
 

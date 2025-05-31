@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
 import readchar
-from ..view.assets.foto_perfil.avatar import atribuir_imagem_aleatoria
+from ..view.assets.default_photos.avatar import atribuir_imagem_aleatoria
 
 
 def validar_nome(user_nome_completo):
