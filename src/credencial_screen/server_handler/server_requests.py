@@ -3,8 +3,9 @@ import json
 import time
 from .server_operations import *
 from src.view.assets.foto_perfil import *
-HOST = "proxy19.rt3.io"
-PORT = 32752
+
+HOST = "127.0.0.1"
+PORT = 69
 
 
 username = socket.gethostbyname(socket.gethostname())
@@ -22,14 +23,14 @@ OPERATION = "NONE"
 def client_register(nome, cpf, email, senha, data_nasc, foto_perfil) -> None:
     OPERATION = CLIENT_REGISTER
     data = {
-        "nome": nome, 
-        "cpf": cpf, 
-        "email": email, 
+        "nome": nome,
+        "cpf": cpf,
+        "email": email,
         "senha": senha,
         "data_nasc": data_nasc,
-        "transferencias": {},
-        "foto_perfil": foto_perfil
-        }
+        "transferencias": [],
+        "foto_perfil": foto_perfil,
+    }
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))

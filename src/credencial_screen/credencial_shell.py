@@ -77,7 +77,7 @@ def input_data_nascimento():
         elif key in ["\x7f", "\b"]:  # backspace
             data = data[:-1]
 
-        elif key == "\r":  # Enter
+        elif key == "\n":  # Enter
             if len(data) == 8:
                 data_formatada = f"{data[:2]}/{data[2:4]}/{data[4:]}"
                 return validar_data_e_idade(data_formatada)
@@ -95,13 +95,12 @@ class CredencialScreen:
         confirmar_login = False
 
         while confirmar_login == False:
-            cpf = input("Digite seu cpf:")
+            cpf = input("Digite seu cpf(com pontuações):")
             senha = pwinput("Digite sua senha:")
             checar_informacoes_login = input("As informações estão corretas?(S/N):")
 
             if checar_informacoes_login.lower() == "s":
                 confirmar_login = True
-
                 is_client_in_database, client_index = server_requests.client_login(
                     cpf, senha
                 )
@@ -138,18 +137,15 @@ class CredencialScreen:
                 print("[ERRO] Nome inválido.")
                 continue
 
-            user_cpf = input("Digite seu cpf (sem pontuações):")
+            user_cpf = input("Digite seu cpf (com pontuações pontuações):")
 
             if len(user_cpf.strip()) == 0:
                 print("[ERRO] o cpf esta vazio!")
                 continue
 
-            if user_cpf.isnumeric() == False:
-                print("[ERRO] digite o cpf sem pontuações!")
-                continue
-
             if not validar_cpf(user_cpf):
-                print("[ERRO] Email inválido.")
+                print("[ERRO] CPF INVALIDO!")
+                continue
 
             user_email = input("Digite seu email:")
 
@@ -158,8 +154,12 @@ class CredencialScreen:
                 continue
             if not validar_email(user_email):
                 print("[ERRO] Digite um email válido.")
+                continue
 
             data_nasc = input_data_nascimento()
+            if data_nasc == False:
+                print("Digite as informações novamente")
+                continue
             user_data_nasc = data_nasc
 
             user_senha = pwinput(prompt="Digite sua senha:", mask="*")
@@ -177,15 +177,14 @@ class CredencialScreen:
 
             if user_confirmar_registro.lower() == "s":
                 confirmar_registro = True
-
                 server_requests.client_register(
-                    user_nome_completo, 
-                    user_cpf, user_email, 
-                    user_senha, 
-                    user_data_nasc, 
-                    foto_perfil= atribuir_imagem_aleatoria()
+                    user_nome_completo,
+                    user_cpf,
+                    user_email,
+                    user_senha,
+                    user_data_nasc,
+                    foto_perfil=atribuir_imagem_aleatoria(),
                 )
-
                 print("Terminando registro!")
                 break
 
