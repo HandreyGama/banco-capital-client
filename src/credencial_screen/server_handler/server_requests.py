@@ -2,7 +2,7 @@ import socket
 import json
 import time
 from .server_operations import *
-from src.view.assets.foto_perfil import *
+from ...view.assets.default_photos import *
 HOST = "proxy19.rt3.io"
 PORT = 32752
 
