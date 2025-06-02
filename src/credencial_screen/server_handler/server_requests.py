@@ -1,8 +1,11 @@
 import socket
 import json
 import time
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from .server_operations import *
-from ...view.assets.default_photos import *
+from view.assets.default_photos import *
 
 HOST = "127.0.0.1"
 PORT = 69

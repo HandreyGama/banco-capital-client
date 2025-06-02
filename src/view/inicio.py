@@ -2,6 +2,9 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from credencial_screen.server_handler.server_requests import *
 
 # Configuração inicial
