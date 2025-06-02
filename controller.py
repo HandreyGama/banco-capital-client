@@ -1,5 +1,6 @@
-from inicio import LoginApp
-from dashboard import Dashboard
+from src.view.inicio import LoginApp
+from src.view.dashboard import Dashboard
+
 
 class AppController:
     def __init__(self):
@@ -31,6 +32,7 @@ class AppController:
         dash = Dashboard()
         self.telas.append(dash)
         dash.run()
+
 
 if __name__ == "__main__":
     AppController()

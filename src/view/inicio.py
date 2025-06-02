@@ -4,12 +4,12 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from credencial_screen.server_handler.server_requests import *
+from src.credencial_screen.server_handler.server_requests import *
 
 # Configuração inicial
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
+
 
 class LoginApp:
     def __init__(self, controller):
@@ -32,25 +32,16 @@ class LoginApp:
         self.SECONDARY_TEXT = "#a0a0a0"
         BORDA_PRETA = "#000000"
 
-        frame = ctk.CTkFrame(
-            master=self.app,
-            fg_color=self.DARK_BG,
-            corner_radius=20
-        )
+        frame = ctk.CTkFrame(master=self.app, fg_color=self.DARK_BG, corner_radius=20)
         frame.pack(pady=30, padx=30, fill="both", expand=True)
 
         left_frame = ctk.CTkFrame(
-            master=frame,
-            width=200,
-            corner_radius=0,
-            fg_color=self.DARK_BG
+            master=frame, width=200, corner_radius=0, fg_color=self.DARK_BG
         )
         left_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
         self.right_frame = ctk.CTkFrame(
-            master=frame,
-            fg_color=self.DARK_FRAME,
-            corner_radius=20
+            master=frame, fg_color=self.DARK_FRAME, corner_radius=20
         )
         self.right_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
@@ -58,11 +49,7 @@ class LoginApp:
             qr_img = Image.open("src/view/assets/logotype/banco-capital.png")
             qr_img = qr_img.resize((150, 200))
             qr_img = ImageTk.PhotoImage(qr_img)
-            qr_label = tk.Label(
-                left_frame,
-                image=qr_img,
-                bg=self.DARK_BG
-            )
+            qr_label = tk.Label(left_frame, image=qr_img, bg=self.DARK_BG)
             qr_label.image = qr_img
             qr_label.pack(pady=(40, 10))
         except:
@@ -73,7 +60,7 @@ class LoginApp:
             text="Login",
             font=("Arial", 24, "bold"),
             anchor="w",
-            text_color=self.TEXT_COLOR
+            text_color=self.TEXT_COLOR,
         )
         login_label.pack(pady=(40, 20), padx=20)
 
@@ -90,14 +77,12 @@ class LoginApp:
             border_color=BORDA_PRETA,
             border_width=BORDA_WIDTH,
             text_color=self.TEXT_COLOR,
-            corner_radius=5
+            corner_radius=5,
         )
         self.cpf_entry.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
         senha_container = ctk.CTkFrame(
-            self.right_frame,
-            fg_color="transparent",
-            bg_color="transparent"
+            self.right_frame, fg_color="transparent", bg_color="transparent"
         )
         senha_container.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
@@ -106,7 +91,7 @@ class LoginApp:
             fg_color=self.DARKER_BG,
             border_color=BORDA_PRETA,
             border_width=BORDA_WIDTH,
-            corner_radius=5
+            corner_radius=5,
         )
         senha_border_frame.pack()
 
@@ -114,10 +99,10 @@ class LoginApp:
             senha_border_frame,
             placeholder_text="Senha",
             show="*",
-            width=CAMPO_WIDTH-30,
+            width=CAMPO_WIDTH - 30,
             fg_color=self.DARKER_BG,
             border_width=0,
-            text_color=self.TEXT_COLOR
+            text_color=self.TEXT_COLOR,
         )
         self.senha_entry.pack(side="left", padx=0)
 
@@ -130,27 +115,24 @@ class LoginApp:
             hover_color=self.DARK_FRAME,
             command=self.toggle_senha,
             corner_radius=0,
-            border_width=0
+            border_width=0,
         )
         toggle_btn.pack(side="right", padx=0)
 
         login_button = ctk.CTkButton(
             self.right_frame,
-            text="Login", 
+            text="Login",
             width=CAMPO_WIDTH,
             fg_color="white",
             hover_color="gray",
             text_color="black",
             font=("Arial", 11, "bold"),
             corner_radius=5,
-            command=self.verificar_login
+            command=self.verificar_login,
         )
         login_button.pack(padx=CAMPO_PADX)
 
-        botoes_frame = ctk.CTkFrame(
-            self.right_frame,
-            fg_color=self.DARK_FRAME
-        )
+        botoes_frame = ctk.CTkFrame(self.right_frame, fg_color=self.DARK_FRAME)
         botoes_frame.pack(pady=10)
 
         esquecisenha = ctk.CTkButton(
@@ -161,7 +143,7 @@ class LoginApp:
             fg_color=self.DARK_FRAME,
             hover_color=self.DARKER_BG,
             text_color=self.SECONDARY_TEXT,
-            border_width=0
+            border_width=0,
         )
         esquecisenha.pack(side="left", padx=10)
 
@@ -173,7 +155,7 @@ class LoginApp:
             fg_color=self.DARK_FRAME,
             hover_color=self.DARKER_BG,
             text_color=self.SECONDARY_TEXT,
-            border_width=0
+            border_width=0,
         )
         cadastrase.pack(side="left", padx=10)
 
@@ -191,7 +173,7 @@ class LoginApp:
             messagebox.showwarning("Atenção", "Por favor, preencha todos os campos!")
             return
 
-        if client_login(self, cpf, senha) == True:
+        if client_login(cpf, senha):
             self.app.destroy()
             self.controller.abrir_dashboard()
         else:
