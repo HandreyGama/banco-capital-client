@@ -64,7 +64,8 @@ def client_tranferencia(user_index, valor_transferencia, numero_conta):
     client.send(json.dumps(data).encode("utf-8"))
     transferencia_status = client.recv(1024).decode("utf-8")
     if transferencia_status == "sucess":
-        print("transferencia feita com sucesso")
+        print("transferencia feita com sucesso!")
+        print("-" * 6 + " TRANSFERENCIA FINALIZADA " + "-" * 6)
         transfer_status = True
     else:
         print("Erro na transferencia")
@@ -79,6 +80,24 @@ def client_informacoes(user_id):
     client.send(f"{user_id}".encode("utf-8"))
     client_return_info = client.recv(1024).decode("utf-8")
     return json.loads(client_return_info)
+
+
+def client_extrato(user_id):
+    OPERATION = CLIENT_EXTRATO
+    client.send(OPERATION.encode("utf-8"))
+    time.sleep(1)
+    client.send(f"{user_id}".encode("utf-8"))
+    client_return_extrato = client.recv(1024).decode("utf-8")
+    return json.loads(client_return_extrato)
+
+
+def client_get_user_target(numero_conta):
+    OPERATION = CLIENT_TARGET
+    client.send(OPERATION.encode("utf-8"))
+    time.sleep(1)
+    client.send(numero_conta.encode("utf-8"))
+    client_target_nome = client.recv(1024).decode("utf-8")
+    return client_target_nome
 
 
 def close_conection():
