@@ -22,6 +22,7 @@ class LoginApp:
         self.setup_ui()
 
     def setup_ui(self):
+
         # Cores personalizadas
         self.DARK_BG = "#121212"
         self.DARKER_BG = "#0a0a0a"
@@ -172,8 +173,9 @@ class LoginApp:
         if not cpf or not senha:
             messagebox.showwarning("Atenção", "Por favor, preencha todos os campos!")
             return
+        self.controller.USER_EXISTS,self.controller.USER_INDEX = client_login(cpf,senha)
 
-        if client_login(cpf, senha):
+        if self.controller.USER_EXISTS:
             self.app.destroy()
             self.controller.abrir_dashboard()
         else:

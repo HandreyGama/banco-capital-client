@@ -1,12 +1,13 @@
 
 import customtkinter as ctk
 from PIL import Image
-
+from src.credencial_screen.server_handler.server_requests import *
 ctk.set_appearance_mode("dark")
 
 class Dashboard:
 
-    def __init__(self):
+    def __init__(self,controller):
+        self.controller = controller
         self.app = ctk.CTk()
         self.app.geometry("1224x664")
         self.app.title("Dashboard - Banco CAPITAL")
@@ -22,6 +23,9 @@ class Dashboard:
         self.VERDE_BLACK = "#339651"
         self.VERMELHO_LIGTH = "#EE5F5F"
         self.VERMELHO_BLACK = "#BC1616"
+        
+        user = client_informacoes(self.controller.USER_INDEX)
+        print(user)
 
         # Fonte com CTkFont
         self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=24, weight="bold")
@@ -56,6 +60,7 @@ class Dashboard:
 
         # Função auxiliar para criar botões com ícones
         def criar_botao_sidebar(master, texto, caminho_icon, cor_fundo="transparent"):
+            user = client_informacoes(self.controller.USER_INDEX)
             imagem_icon = Image.open(caminho_icon).resize((24, 24))
             icon = ctk.CTkImage(light_image=imagem_icon, size=(24, 24))
             return ctk.CTkButton(
@@ -135,10 +140,10 @@ class Dashboard:
             fg_color="transparent"
         )
         label_dashboard.place(x=160, y=20, anchor="nw")
-
+        user_name = user["nome"].split()
         label_user = ctk.CTkLabel(
             master=frame2,
-            text="Olá, Victor Manuel",
+            text=f"Olá, {user_name[0]} {user_name[-1]}",
             font=self.AFACAD_BOLD,
             text_color=self.BLACK_BG,
             fg_color="transparent"

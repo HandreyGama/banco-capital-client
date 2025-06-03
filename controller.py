@@ -6,7 +6,8 @@ class AppController:
     def __init__(self):
         self.telas = []  # Lista que armazena as telas
         self.abrir_login()
-
+        self.USER_INDEX
+        self.USER_EXISTS
     def abrir_login(self):
         # Fecha a tela anterior, se existir
         if self.telas:
@@ -29,10 +30,11 @@ class AppController:
                 print("Erro ao fechar tela de login:", e)
 
         # Cria tela de dashboard e adiciona à lista
-        dash = Dashboard()
+        dash = Dashboard(controller=self)
         self.telas.append(dash)
         dash.run()
 
 
 if __name__ == "__main__":
-    AppController()
+    p1 = AppController()
+    
