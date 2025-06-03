@@ -1,6 +1,6 @@
 from src.view.inicio import LoginApp
-from src.view.dashboard import Dashboard
-
+from src.view.dashboard import DashboardApp
+from src.view.cadastro import CadastroApp
 
 class AppController:
     def __init__(self):
@@ -30,9 +30,22 @@ class AppController:
                 print("Erro ao fechar tela de login:", e)
 
         # Cria tela de dashboard e adiciona à lista
-        dash = Dashboard(controller=self)
+        dash = DashboardApp(controller=self)
         self.telas.append(dash)
         dash.run()
+
+    def abrir_cadastro(self):
+    # Fecha a tela anterior
+        if self.telas:
+            try:
+                self.telas[-1].app.destroy()
+            except Exception as e:
+                print("Erro ao fechar tela de login:", e)
+
+        # Cria tela de dashboard e adiciona à lista
+        cadastro = CadastroApp(controller=self)
+        self.telas.append(cadastro)
+        cadastro.run()
 
 
 if __name__ == "__main__":

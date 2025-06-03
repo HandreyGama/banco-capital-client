@@ -21,7 +21,7 @@ def validar_email(user_email):
 def validar_cpf(user_cpf):
     return re.match(
         r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf
-    ) and verificar_cpf_inexistente.verificador_cpf(user_cpf)
+    ) 
 
 
 def input_data_nascimento():
