@@ -38,6 +38,13 @@ def client_register(nome, cpf, email, senha, data_nasc, foto_perfil) -> None:
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
     client.send(json.dumps(data).encode("utf-8"))
+    status_register = client.recv(1024).decode("utf-8")
+    if status_register == "True":
+        print("operação feita com sucesso!")
+    elif status_register == "False":
+        print(
+            "[ERRO] DADOS CADASTRADOS JA EXISTEM NO BANCO DE DADOS!\nCANCELANDO REGISTRO!"
+        )
 
 
 def client_login(cpf, senha):

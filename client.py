@@ -20,14 +20,16 @@ class Shell:
 
     def LoginScreen(self):
         credencial_screen = CredencialScreen()
-        client_information = credencial_screen.SingIn()
-        print(client_information)
-        if client_information[0] == True:
-            bank_menu.user_index = client_information[1]
-            bank_menu.main()
-        elif client_information[0] == False:
-            print("[ERRO] cpf ou senha invalidas!")
-            pass
+        while True:
+            client_information = credencial_screen.SingIn()
+            print(client_information)
+            if client_information[0] == True:
+                bank_menu.user_index = client_information[1]
+                bank_menu.main()
+                break
+            elif client_information[0] == False:
+                print("[ERRO] cpf ou senha invalidas!")
+                pass
         self.estado = "BankMenu"
 
     def SairShell(self):
@@ -54,6 +56,7 @@ class Shell:
 
     def run(self):
         self.app.mainloop()
+
 
 if __name__ == "__main__":
     while True:

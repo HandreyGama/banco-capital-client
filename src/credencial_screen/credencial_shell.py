@@ -1,10 +1,13 @@
 from pwinput import pwinput
+
+from src.credencial_screen import verificar_cpf_inexistente
 from .server_handler import server_requests
 import re
 import os
 from datetime import datetime
 import readchar
 from ..view.assets.default_photos.avatar import atribuir_imagem_aleatoria
+from .verificar_cpf_inexistente import *
 
 
 def validar_nome(user_nome_completo):
@@ -16,7 +19,9 @@ def validar_email(user_email):
 
 
 def validar_cpf(user_cpf):
-    return re.match(r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf)
+    return re.match(
+        r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf
+    ) and verificar_cpf_inexistente.verificador_cpf(user_cpf)
 
 
 def input_data_nascimento():
@@ -96,7 +101,13 @@ class CredencialScreen:
 
         while confirmar_login == False:
             cpf = input("Digite seu cpf(com pontuações):")
+            if not validar_cpf(cpf):
+                print("[ERRO] cpf invalido!")
+                continue
             senha = pwinput("Digite sua senha:")
+            if len(senha.strip()) < 6:
+                print("[ERRO] o tamanho minimo da senha é de 6 caracteres")
+                continue
             checar_informacoes_login = input("As informações estão corretas?(S/N):")
 
             if checar_informacoes_login.lower() == "s":
@@ -144,7 +155,7 @@ class CredencialScreen:
                 continue
 
             if not validar_cpf(user_cpf):
-                print("[ERRO] CPF INVALIDO!")
+                print("[ERRO] CPF INVALIDO")
                 continue
 
             user_email = input("Digite seu email:")
@@ -185,7 +196,6 @@ class CredencialScreen:
                     user_data_nasc,
                     foto_perfil=atribuir_imagem_aleatoria(),
                 )
-                print("Terminando registro!")
                 break
 
             elif user_confirmar_registro.lower() == "n":
