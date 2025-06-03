@@ -19,10 +19,12 @@ def validar_email(user_email):
 
 
 def validar_cpf(user_cpf):
-    return re.match(
-        r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf
-    ) 
-
+    return re.match(r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf)
+def validar_telefone(user_telefone):  
+    if re.fullmatch(r"\d{2}9\d{8}", re.sub(r"\D", "", user_telefone)):
+        return f"({user_telefone[:2]}) {user_telefone[2:7]}-{user_telefone[7:]}"
+    else:
+        return False
 
 def input_data_nascimento():
     def limpar_terminal():

@@ -24,13 +24,14 @@ except:
 OPERATION = "NONE"
 
 
-def client_register(nome, cpf, email, senha, data_nasc, foto_perfil) -> None:
+def client_register(nome, cpf, email, senha, telefone, data_nasc, foto_perfil) -> None:
     OPERATION = CLIENT_REGISTER
     data = {
         "nome": nome,
         "cpf": cpf,
         "email": email,
         "senha": senha,
+        "numero_telefone": telefone,
         "data_nasc": data_nasc,
         "transferencias": [],
         "foto_perfil": foto_perfil,
