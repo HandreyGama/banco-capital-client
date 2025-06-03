@@ -3,9 +3,6 @@ from src.credencial_screen import credencial_shell
 from src.credencial_screen.credencial_shell import CredencialScreen
 from src.credencial_screen.server_handler import server_requests
 from src.bank_screen_options import bank_menu
-from Banco_Capital import AppController
-from src.view.inicio import LoginApp
-from src.view.dashboard import Dashboard
 
 
 class Shell:
