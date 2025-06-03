@@ -18,6 +18,10 @@ def validar_email(user_email):
     return re.match(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$", user_email)
 
 
+def validar_telefone(user_telefone):
+    return re.match(r"^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$", user_telefone)
+
+
 def validar_cpf(user_cpf):
     return re.match(r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", user_cpf)
 def validar_telefone(user_telefone):  
@@ -181,11 +185,17 @@ class CredencialScreen:
             if len(user_senha.strip()) == 0 or len(user_confirmar_senha.strip()) == 0:
                 print("[ERRO] o campo das senhas esta vazio!")
                 continue
+            if len(user_senha) < 6:
+                print("[ERRO] a senha deve ter no minimo 6 caracteres")
+                continue
 
             if user_senha != user_confirmar_senha:
                 print("[ERRO] as senhas não conhecidem!")
                 continue
-
+            user_numero_telefone = input("Digite seu numero de telefone para contato:")
+            if not validar_telefone(user_numero_telefone):
+                print("[ERRO] numero de telefone invalido!")
+                continue
             user_confirmar_registro = input("Os dados inseridos estão corretos?:(S/N)")
 
             if user_confirmar_registro.lower() == "s":
@@ -197,6 +207,7 @@ class CredencialScreen:
                     user_senha,
                     user_data_nasc,
                     foto_perfil=atribuir_imagem_aleatoria(),
+                    telefone=user_numero_telefone,
                 )
                 break
 

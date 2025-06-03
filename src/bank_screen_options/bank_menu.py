@@ -1,4 +1,5 @@
 from ..credencial_screen.server_handler.server_requests import *
+import pwinput
 
 user_index = 0
 
@@ -95,13 +96,28 @@ def bank_menu():
 
         pass
     elif user_input == "5":
+        campo_mudança_client = input(
+            "Digite o numero do campo que vc quer mudar:\n1.email\n2.senha\n3.numero de telefone\n:"
+        )
+        if campo_mudança_client == "1":
+            user_new_email = input("Digite seu novo endereço de email:")
+            client_update_info("email", user_new_email, user_index)
+        elif campo_mudança_client == "2":
+            user_new_senha = pwinput.pwinput("Digite sua nova senha:")
+            client_update_info("senha", user_new_senha, user_index)
+
+        elif campo_mudança_client == "3":
+            user_new_telefone = input("Digite seu novo telefone:")
+            client_update_info("telefone", user_new_telefone, user_index)
+        else:
+            print("[ERRO] input invalido! escolha uma das opções listadas!")
         pass
     elif user_input == "6":
         global exit_program
         print("-" * 6 + " SAINDO DO BANCO " + "-" * 6)
         exit_program = True
         exit()
-        pass
+
     else:
         print("Digite uma opção valida!")
 

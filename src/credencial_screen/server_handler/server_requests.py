@@ -24,7 +24,9 @@ except:
 OPERATION = "NONE"
 
 
+
 def client_register(nome, cpf, email, senha, telefone, data_nasc, foto_perfil) -> None:
+
     OPERATION = CLIENT_REGISTER
     data = {
         "nome": nome,
@@ -34,7 +36,7 @@ def client_register(nome, cpf, email, senha, telefone, data_nasc, foto_perfil) -
         "numero_telefone": telefone,
         "data_nasc": data_nasc,
         "transferencias": [],
-        "foto_perfil": foto_perfil,
+        "foto_perfil": foto_perfil
     }
     client.send(OPERATION.encode("utf-8"))
     time.sleep(1)
@@ -106,6 +108,14 @@ def client_get_user_target(numero_conta):
     client.send(numero_conta.encode("utf-8"))
     client_target_nome = client.recv(1024).decode("utf-8")
     return client_target_nome
+
+
+def client_update_info(user_option, user_new_info, user_index):
+    OPERATION = CLIENT_UPDATE_INFO
+    client.send(OPERATION.encode("utf-8"))
+    time.sleep(1)
+    client.send(json.dumps([user_option, user_new_info, user_index]).encode("utf-8"))
+    status_update_info = client.recv(1024).decode("utf-8")
 
 
 def close_conection():
