@@ -2,6 +2,7 @@
 import customtkinter as ctk
 from PIL import Image
 from src.credencial_screen.server_handler.server_requests import *
+
 ctk.set_appearance_mode("dark")
 
 class Dashboard:
@@ -25,7 +26,6 @@ class Dashboard:
         self.VERMELHO_BLACK = "#BC1616"
         
         user = client_informacoes(self.controller.USER_INDEX)
-        print(user)
 
         # Fonte com CTkFont
         self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=24, weight="bold")
@@ -127,28 +127,56 @@ class Dashboard:
             hover_color="#1a1a1a",
             anchor="w",
             width=120,
-            height=40
+            height=40,
+            command=self.voltarParaLogin
+           
         )
         btn_logout.pack(anchor="w", padx=10)
 
         # Título e saudação
         label_dashboard = ctk.CTkLabel(
             master=frame2,
-            text=f"Dashboard | 345225 ",
+            text=f"Dashboard | {user['numero_conta']}",
             font=self.AFACAD_BOLD,
             text_color=self.BLACK_BG,
             fg_color="transparent"
         )
         label_dashboard.place(x=160, y=20, anchor="nw")
+
         user_name = user["nome"].split()
-        label_user = ctk.CTkLabel(
+
+        # Container para foto + saudação (juntos)
+        user_info_frame = ctk.CTkFrame(
             master=frame2,
+            fg_color="transparent"
+        )
+        user_info_frame.place(relx=1.0, x=-20, y=20, anchor="ne")
+
+        # Foto de perfil
+        try:
+            imagem_perfil = Image.open(user.get("foto_perfil", {}).get("avatar", {})).resize((40, 40))
+        except:
+            imagem_perfil = Image.open("src/view/assets/logotype/banco-capital.png").resize((40, 40))
+
+        perfil_ctk_image = ctk.CTkImage(light_image=imagem_perfil, size=(40, 40))
+        label_foto = ctk.CTkLabel(master=user_info_frame, image=perfil_ctk_image, text="", fg_color="transparent")
+        # Saudação
+        label_user = ctk.CTkLabel(
+            master=user_info_frame,
             text=f"Olá, {user_name[0]} {user_name[-1]}",
             font=self.AFACAD_BOLD,
             text_color=self.BLACK_BG,
             fg_color="transparent"
         )
-        label_user.place(relx=1.0, x=-20, y=20, anchor="ne")
+        label_user.pack(side="left", padx=(0, 10))  # texto primeiro, padding à direita
+        label_foto.pack(side="left")               # imagem depois
+
+  
+
+
+    def voltarParaLogin(self):
+        self.app.destroy()
+        self.controller.abrir_login()
 
     def run(self):
         self.app.mainloop()
