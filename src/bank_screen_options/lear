@@ -2,11 +2,9 @@ from ..credencial_screen.server_handler.server_requests import *
 
 user_index = 0
 
-exit_program = False
-
 
 def main():
-    while exit_program == False:
+    while True:
         bank_menu()
 
 
@@ -97,15 +95,12 @@ def bank_menu():
     elif user_input == "5":
         pass
     elif user_input == "6":
-        global exit_program
-        print("-" * 6 + " SAINDO DO BANCO " + "-" * 6)
-        exit_program = True
-        exit()
+        break
         pass
     else:
         print("Digite uma opção valida!")
 
 
 if __name__ == "__main__":
-    while exit_program == False:
+    while True:
         main()

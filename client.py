@@ -36,30 +36,24 @@ class Shell:
 
     def MenuPrincipal(self):
         while self.estado == "MenuPrincipal":
-            print("===" + " MENU PRINCIAPL " + "===")
+            print("===" + " MENU PRINCIPAL " + "===")
             print(f"1. Login\n2. cadastro\n3. Sair")
             user_input = input("Digite o numero de uma das opções:")
             if user_input == "1":
                 print("===" + " INICIANDO LOGIN " + "===")
-                self.estado = "MenuPrincipal"
+                self.estado = "LOGIN"
                 self.LoginScreen()
 
             if user_input == "2":
                 print("===" + " INICIANDO CADASTRO " + "===")
-                self.estado = "MenuPrincipal"
+                self.estado = "CADASTRO"
                 self.CredencialScreen()
             if user_input == "3":
                 server_requests.close_conection()
                 self.SairShell()
 
-    def run(self):
-        self.app.mainloop()
-
-
-shell = Shell()
-shell.MenuPrincipal()
-
 
 if __name__ == "__main__":
-    app = AppController()
-    app.run()
+    while True:
+        shell = Shell()
+        shell.MenuPrincipal()
