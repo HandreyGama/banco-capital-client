@@ -2,7 +2,6 @@
 import customtkinter as ctk
 from PIL import Image
 from src.credencial_screen.server_handler.server_requests import *
-
 ctk.set_appearance_mode("dark")
 
 class DashboardApp:
@@ -30,7 +29,7 @@ class DashboardApp:
 
         # Fonte com CTkFont
         self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=24, weight="bold")
-        self.AFACAD_REGULAR = ctk.CTkFont(family="Afacad", size=15, weight="normal")
+        self.AFACAD_REGULAR = ctk.CTkFont(family="Afacad", size=12, weight="normal")
 
         self.AFACAD_BOLD10 = ctk.CTkFont(family="Afacad", size=10, weight="bold")
         self.AFACAD_BOLD15 = ctk.CTkFont(family="Afacad", size=15, weight="bold")
@@ -40,7 +39,7 @@ class DashboardApp:
         frame = ctk.CTkFrame(master=self.app)
         frame.pack(fill="both", expand=True)
 
-        frame2 = ctk.CTkFrame(master=frame, fg_color=self.BRANCO_BG, corner_radius=0)
+        frame2 = ctk.CTkFrame(master=frame, fg_color="white", corner_radius=0)
         frame2.pack(fill="both", expand=True)
 
         # Sidebar
@@ -61,7 +60,7 @@ class DashboardApp:
         logo_label.place(relx=0.5, rely=0.5, anchor="center")
 
         # Função auxiliar para criar botões com ícones
-        def criar_botao_sidebar(master, texto, caminho_icon, cor_fundo="transparent"):
+        def criar_botao_sidebar(master, texto, caminho_icon, cor_fundo="transparent",command=None):
 
             imagem_icon = Image.open(caminho_icon).resize((24, 24))
             icon = ctk.CTkImage(light_image=imagem_icon, size=(24, 24))
@@ -77,7 +76,8 @@ class DashboardApp:
                 anchor="w",
                 width=120,
                 height=40,
-                corner_radius=6
+                corner_radius=6,
+                command=command
             )
 
         # Container central para os botões
@@ -85,7 +85,7 @@ class DashboardApp:
         middle_container.pack(expand=True)
 
         # Botões do meio
-        btn_transferir = criar_botao_sidebar(middle_container, "Transferir", "src/view/assets/icons/transferir.png")
+        btn_transferir = criar_botao_sidebar(middle_container, "Transferir", "src/view/assets/icons/transferir.png",command=self.irParaTransferencia)
         btn_investir = criar_botao_sidebar(middle_container, "Investir", "src/view/assets/icons/investir.png")
         btn_extrato = criar_botao_sidebar(middle_container, "Extrato", "src/view/assets/icons/extrato.png")
 
@@ -173,191 +173,48 @@ class DashboardApp:
         label_user.pack(side="left", padx=(0, 10))  # texto primeiro, padding à direita
         label_foto.pack(side="left")               # imagem depois
 
-        # CARD DA CONTA CORRENTE #####
-        frame_card = ctk.CTkFrame(
-            master=frame2,
-            width=212,
-            height=92,
-            fg_color="transparent"
-        )
-        frame_card.place(x=160, y=70)
+        card1 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BLACK_BG)
+        card1.place(x=160, y=70)
 
-        # Label com imagem de fundo (em cima do frame)
-        bg_card_image = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/cards/gold_card.png"),  # Certifique-se do caminho correto
-            size=(210, 90)
-        )
-        bg_label = ctk.CTkLabel(master=frame_card, image=bg_card_image, text="", fg_color="transparent")
-        bg_label.place(x=0, y=0)  # Coloca no fundo, cobrindo todo o card
+        icon1 = ctk.CTkImage(Image.open("src/view/assets/icons/dinheiro2.png"), size=(28, 22))
+        ctk.CTkLabel(card1, image=icon1, text="").place(x=15, y=15)
+        ctk.CTkLabel(card1, text="Conta corrente", font=self.AFACAD_REGULAR, text_color="white").place(x=60, y=20)
+        ctk.CTkLabel(card1, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="white").place(x=15, y=55)
+        ctk.CTkLabel(card1, text="Economize para poder crescer!", font=("Arial", 11), text_color="#cbd5e1").place(x=15, y=90)
 
-        # Sobreposição direta no mesmo frame (acima do bg_label)
-        # Texto "Conta corrente"
-        label_tipo_conta = ctk.CTkLabel(
-            master=frame_card,
-            text="Conta corrente",
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_tipo_conta.place(x=10, y=5)
 
-        # Saldo e ícone lado a lado
-        label_valor_saldo = ctk.CTkLabel(
-            master=frame_card,
-            text=f"R${float(user['saldo']):.2f}".replace('.', ','),
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_valor_saldo.place(x=10, y=55)
+         # CARD 2 - Avg. Order Amount
+        card2 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
+        card2.place(x=423, y=70)
 
-        icone_dinheiro = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/icons/dinheiro.png"),
-            size=(24, 24)
-        )
-        label_icone = ctk.CTkLabel(master=frame_card, image=icone_dinheiro, text="", fg_color="transparent")
-        label_icone.place(x=170, y=55)
-        # CARD DA CONTA CORRENTE #####
+        icon2 = ctk.CTkImage(Image.open("src/view/assets/icons/investir3.png"), size=(28, 22))
+        ctk.CTkLabel(card2, image=icon2, text="").place(x=15, y=15)
+        ctk.CTkLabel(card2, text="Carteira de investimento", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
+        ctk.CTkLabel(card2, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
+        ctk.CTkLabel(card2, text="↑", font=("Arial", 13, "bold"), text_color="#f87171").place(x=140, y=60)
+        ctk.CTkLabel(card2, text="A pressa é inimiga da perfeição!)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
 
-        
-        # CARD DA CONTA DE INVESTIMENTO #####
-        frame_card = ctk.CTkFrame(
-            master=frame2,
-            width=210,
-            height=91,
-            fg_color="transparent"
-        )
-        frame_card.place(x=423, y=70)
+        # CARD 3 - Unique Customers
+        card3 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
+        card3.place(x=676, y=70)
 
-        # Label com imagem de fundo (em cima do frame)
-        bg_card_image = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/cards/gold_card.png"),  # Certifique-se do caminho correto
-            size=(210, 91)
-        )
-        bg_label = ctk.CTkLabel(master=frame_card, image=bg_card_image, text="", fg_color="transparent")
-        bg_label.place(x=0, y=0)  # Coloca no fundo, cobrindo todo o card
+        icon3 = ctk.CTkImage(Image.open("src/view/assets/icons/transferir2.png"), size=(28, 22))
+        ctk.CTkLabel(card3, image=icon3, text="").place(x=15, y=15)
+        ctk.CTkLabel(card3, text="Última tranferência recebida", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
+        ctk.CTkLabel(card3, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
+        ctk.CTkLabel(card3, text="↓", font=("Arial", 13, "bold"), text_color="#4ade80").place(x=140, y=60)
+        ctk.CTkLabel(card3, text="Compared to ($12,840 last year)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
 
-        # Sobreposição direta no mesmo frame (acima do bg_label)
-        # Texto "Conta de investimento"
-        label_tipo_conta = ctk.CTkLabel(
-            master=frame_card,
-            text="Conta de investimento",
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_tipo_conta.place(x=10, y=5)
+        # CARD 4 - Net Sales
+        card4 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
+        card4.place(x=929, y=70)
 
-        # Saldo e ícone lado a lado
-        label_valor_saldo = ctk.CTkLabel(
-            master=frame_card,
-            text=f"R${float(user['saldo']):.2f}".replace('.', ','),
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_valor_saldo.place(x=10, y=55)
-
-        icone_dinheiro = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/icons/investir.png"),
-            size=(24, 24)
-        )
-        label_icone = ctk.CTkLabel(master=frame_card, image=icone_dinheiro, text="", fg_color="transparent")
-        label_icone.place(x=170, y=55)
-        # CARD DA CONTA INVESTIMENTO #####
-
-        # CARD DA ULTIMA TRANFERENCIA RECEBIDA #####
-        frame_card = ctk.CTkFrame(
-            master=frame2,
-            width=210,
-            height=91,
-            fg_color="transparent"
-        )
-        frame_card.place(x=676, y=70)
-
-        # Label com imagem de fundo (em cima do frame)
-        bg_card_image = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/cards/green_card.png"),  # Certifique-se do caminho correto
-            size=(210, 91)
-        )
-        bg_label = ctk.CTkLabel(master=frame_card, image=bg_card_image, text="", fg_color="transparent")
-        bg_label.place(x=0, y=0)  # Coloca no fundo, cobrindo todo o card
-
-        # Sobreposição direta no mesmo frame (acima do bg_label)
-        # Texto "Conta de investimento"
-        label_tipo_conta = ctk.CTkLabel(
-            master=frame_card,
-            text="Última tranferência recebida",
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_tipo_conta.place(x=10, y=5)
-
-        # Saldo e ícone lado a lado
-        label_valor_saldo = ctk.CTkLabel(
-            master=frame_card,
-            text=f"R${float(user['saldo']):.2f}".replace('.', ','),
-            font=self.AFACAD_BOLD,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_valor_saldo.place(x=10, y=55)
-
-        icone_dinheiro = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/icons/transferir.png"),
-            size=(24, 24)
-        )
-        label_icone = ctk.CTkLabel(master=frame_card, image=icone_dinheiro, text="", fg_color="transparent")
-        label_icone.place(x=170, y=55)
-        # CARD DA ULTIMA TRANSFERENCIA RECEBIDA #####
-
-        # CARD DA ULTIMA TRANSFERENCIA ENVIADA #####
-        frame_card = ctk.CTkFrame(
-            master=frame2,
-            width=210,
-            height=91,
-            fg_color="transparent"
-        )
-        frame_card.place(x=929, y=70)
-
-        # Label com imagem de fundo (em cima do frame)
-        bg_card_image = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/cards/red_card.png"),  # Certifique-se do caminho correto
-            size=(210, 91)
-        )
-        bg_label = ctk.CTkLabel(master=frame_card, image=bg_card_image, text="", fg_color="transparent")
-        bg_label.place(x=0, y=0)  # Coloca no fundo, cobrindo todo o card
-
-        # Sobreposição direta no mesmo frame (acima do bg_label)
-        # Texto "Conta de investimento"
-        label_tipo_conta = ctk.CTkLabel(
-            master=frame_card,
-            text="Última tranferência enviada",
-            font=self.AFACAD_BOLD15,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_tipo_conta.place(x=10, y=5)
-
-        # Saldo e ícone lado a lado
-        label_valor_saldo = ctk.CTkLabel(
-            master=frame_card,
-            text=f"R${float(user['saldo']):.2f}".replace('.', ','),
-            font=self.AFACAD_BOLD,
-            text_color="white",
-            fg_color="transparent"
-        )
-        label_valor_saldo.place(x=10, y=55)
-
-        icone_dinheiro = ctk.CTkImage(
-            light_image=Image.open("src/view/assets/icons/transferir.png"),
-            size=(24, 24)
-        )
-        label_icone = ctk.CTkLabel(master=frame_card, image=icone_dinheiro, text="", fg_color="transparent")
-        label_icone.place(x=170, y=55)
-        # CARD DA ULTIMA TRANFERENCIA ENVIADA #####
-
+        icon4 = ctk.CTkImage(Image.open("src/view/assets/icons/transferir2.png"), size=(28, 22))
+        ctk.CTkLabel(card4, image=icon4, text="").place(x=15, y=15)
+        ctk.CTkLabel(card4, text="Última transferência enviada", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
+        ctk.CTkLabel(card4, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
+        ctk.CTkLabel(card4, text="+3.8% ↑", font=("Arial", 13, "bold"), text_color="#4ade80").place(x=140, y=60)
+        ctk.CTkLabel(card4, text="Compared to ($8,569 last year)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
 
 
   
@@ -366,6 +223,9 @@ class DashboardApp:
     def voltarParaLogin(self):
         self.app.destroy()
         self.controller.abrir_login()
+    def irParaTransferencia(self):
+        self.app.destroy()
+        self.controller.abrir_transferencia()
 
     def run(self):
         self.app.mainloop()

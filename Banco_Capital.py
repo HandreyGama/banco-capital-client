@@ -1,7 +1,7 @@
 from src.view.inicio import LoginApp
 from src.view.dashboard import DashboardApp
 from src.view.cadastro import CadastroApp
-
+from src.view.transferencia import TransferenciaApp
 class AppController:
     def __init__(self):
         self.telas = []  # Lista que armazena as telas
@@ -46,6 +46,20 @@ class AppController:
         cadastro = CadastroApp(controller=self)
         self.telas.append(cadastro)
         cadastro.run()
+
+    def abrir_transferencia(self):
+    # Fecha a tela anterior
+        if self.telas:
+            try:
+                self.telas[-1].app.destroy()
+            except Exception as e:
+                print("Erro ao fechar tela de login:", e)
+
+        # Cria tela de dashboard e adiciona à lista
+        tranferencia = TransferenciaApp(controller=self)
+        self.telas.append(tranferencia)
+        tranferencia.run()
+
 
 
 if __name__ == "__main__":
