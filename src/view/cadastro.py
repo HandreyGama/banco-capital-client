@@ -11,7 +11,8 @@ from src.credencial_screen.credencial_shell import *
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
-class CadastroApp :
+
+class CadastroApp:
     def __init__(self, controller):
         self.controller = controller
         self.app = ctk.CTk()
@@ -32,25 +33,16 @@ class CadastroApp :
         self.SECONDARY_TEXT = "#a0a0a0"
         BORDA_PRETA = "#000000"
 
-        frame = ctk.CTkFrame(
-            master=self.app,
-            fg_color=self.DARK_BG,
-            corner_radius=20
-        )
+        frame = ctk.CTkFrame(master=self.app, fg_color=self.DARK_BG, corner_radius=20)
         frame.pack(pady=30, padx=30, fill="both", expand=True)
 
         left_frame = ctk.CTkFrame(
-            master=frame,
-            width=200,
-            corner_radius=0,
-            fg_color=self.DARK_BG
+            master=frame, width=200, corner_radius=0, fg_color=self.DARK_BG
         )
         left_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
         self.right_frame = ctk.CTkFrame(
-            master=frame,
-            fg_color=self.DARK_FRAME,
-            corner_radius=20
+            master=frame, fg_color=self.DARK_FRAME, corner_radius=20
         )
         self.right_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
@@ -58,11 +50,7 @@ class CadastroApp :
             qr_img = Image.open("src/view/assets/logotype/banco-capital.png")
             qr_img = qr_img.resize((150, 200))
             qr_img = ImageTk.PhotoImage(qr_img)
-            qr_label = tk.Label(
-                left_frame,
-                image=qr_img,
-                bg=self.DARK_BG
-            )
+            qr_label = tk.Label(left_frame, image=qr_img, bg=self.DARK_BG)
             qr_label.image = qr_img
             qr_label.pack(pady=(40, 10))
         except:
@@ -73,7 +61,7 @@ class CadastroApp :
             text="Cadastro",
             font=("Arial", 24, "bold"),
             anchor="w",
-            text_color=self.TEXT_COLOR
+            text_color=self.TEXT_COLOR,
         )
         login_label.pack(pady=(40, 20), padx=20)
 
@@ -82,18 +70,17 @@ class CadastroApp :
         CAMPO_PADY = 10
         BORDA_WIDTH = 1
 
-        cpf_container = ctk.CTkFrame(
-            self.right_frame,
-            fg_color="transparent"
-        )
-        cpf_container.pack(pady=(0, CAMPO_PADY), padx=CAMPO_PADX)  # Alinha centralizado igual aos outros
+        cpf_container = ctk.CTkFrame(self.right_frame, fg_color="transparent")
+        cpf_container.pack(
+            pady=(0, CAMPO_PADY), padx=CAMPO_PADX
+        )  # Alinha centralizado igual aos outros
 
         cpf_label = ctk.CTkLabel(
             cpf_container,
             text="Nome",
             text_color=self.TEXT_COLOR,
             font=("Arial", 12),
-            anchor="w"
+            anchor="w",
         )
         cpf_label.pack(anchor="w")  # Alinha o texto à esquerda dentro do container
 
@@ -105,22 +92,21 @@ class CadastroApp :
             border_color=BORDA_PRETA,
             border_width=BORDA_WIDTH,
             text_color=self.TEXT_COLOR,
-            corner_radius=5
+            corner_radius=5,
         )
         self.nome_entry.pack()
 
-        cpf_container = ctk.CTkFrame(
-            self.right_frame,
-            fg_color="transparent"
-        )
-        cpf_container.pack(pady=(0, CAMPO_PADY), padx=CAMPO_PADX)  # Alinha centralizado igual aos outros
+        cpf_container = ctk.CTkFrame(self.right_frame, fg_color="transparent")
+        cpf_container.pack(
+            pady=(0, CAMPO_PADY), padx=CAMPO_PADX
+        )  # Alinha centralizado igual aos outros
 
         cpf_label = ctk.CTkLabel(
             cpf_container,
             text="CPF",
             text_color=self.TEXT_COLOR,
             font=("Arial", 12),
-            anchor="w"
+            anchor="w",
         )
         cpf_label.pack(anchor="w")  # Alinha o texto à esquerda dentro do container
 
@@ -132,59 +118,74 @@ class CadastroApp :
             border_color=BORDA_PRETA,
             border_width=BORDA_WIDTH,
             text_color=self.TEXT_COLOR,
-            corner_radius=5
+            corner_radius=5,
         )
         self.cpf_entry.pack()
-
 
         self.data_nasc_entry = DataNascimentoEntry(self.right_frame)
         self.data_nasc_entry.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
-                # CAMPO: Email
+        # CAMPO: Email
         email_container = ctk.CTkFrame(self.right_frame, fg_color="transparent")
         email_container.pack(pady=(0, CAMPO_PADY), padx=CAMPO_PADX)
 
         email_label = ctk.CTkLabel(
-            email_container, text="Email", text_color=self.TEXT_COLOR,
-            font=("Arial", 12), anchor="w"
+            email_container,
+            text="Email",
+            text_color=self.TEXT_COLOR,
+            font=("Arial", 12),
+            anchor="w",
         )
         email_label.pack(anchor="w")
 
         email_border = ctk.CTkFrame(
-            email_container, fg_color=self.DARKER_BG,
-            border_color=BORDA_PRETA, border_width=BORDA_WIDTH,
-            corner_radius=5
+            email_container,
+            fg_color=self.DARKER_BG,
+            border_color=BORDA_PRETA,
+            border_width=BORDA_WIDTH,
+            corner_radius=5,
         )
         email_border.pack()
 
         self.email_entry = ctk.CTkEntry(
-            email_border, placeholder_text="email@exemplo.com",
-            width=CAMPO_WIDTH, fg_color=self.DARKER_BG,
-            border_width=0, text_color=self.TEXT_COLOR
+            email_border,
+            placeholder_text="email@exemplo.com",
+            width=CAMPO_WIDTH,
+            fg_color=self.DARKER_BG,
+            border_width=0,
+            text_color=self.TEXT_COLOR,
         )
         self.email_entry.pack()
 
-         # CAMPO: numero telefone
+        # CAMPO: numero telefone
         telefone_container = ctk.CTkFrame(self.right_frame, fg_color="transparent")
         telefone_container.pack(pady=(0, CAMPO_PADY), padx=CAMPO_PADX)
 
         telefone_label = ctk.CTkLabel(
-            telefone_container, text="Telefone", text_color=self.TEXT_COLOR,
-            font=("Arial", 12), anchor="w"
+            telefone_container,
+            text="Telefone",
+            text_color=self.TEXT_COLOR,
+            font=("Arial", 12),
+            anchor="w",
         )
         telefone_label.pack(anchor="w")
 
         telefone_border = ctk.CTkFrame(
-            telefone_container, fg_color=self.DARKER_BG,
-            border_color=BORDA_PRETA, border_width=BORDA_WIDTH,
-            corner_radius=5
+            telefone_container,
+            fg_color=self.DARKER_BG,
+            border_color=BORDA_PRETA,
+            border_width=BORDA_WIDTH,
+            corner_radius=5,
         )
         telefone_border.pack()
 
         self.telefone_entry = ctk.CTkEntry(
-            telefone_border, placeholder_text="(XX) 9XXXX-XXXX",
-            width=CAMPO_WIDTH, fg_color=self.DARKER_BG,
-            border_width=0, text_color=self.TEXT_COLOR
+            telefone_border,
+            placeholder_text="(XX) 9XXXX-XXXX",
+            width=CAMPO_WIDTH,
+            fg_color=self.DARKER_BG,
+            border_width=0,
+            text_color=self.TEXT_COLOR,
         )
         self.telefone_entry.pack()
 
@@ -193,48 +194,61 @@ class CadastroApp :
         senha_container.pack(pady=CAMPO_PADY, padx=CAMPO_PADX)
 
         senha_label = ctk.CTkLabel(
-            senha_container, text="Senha", text_color=self.TEXT_COLOR,
-            font=("Arial", 12), anchor="w"
+            senha_container,
+            text="Senha",
+            text_color=self.TEXT_COLOR,
+            font=("Arial", 12),
+            anchor="w",
         )
         senha_label.pack(anchor="w")
 
         senha_border = ctk.CTkFrame(
-            senha_container, fg_color=self.DARKER_BG,
-            border_color=BORDA_PRETA, border_width=BORDA_WIDTH,
-            corner_radius=5
+            senha_container,
+            fg_color=self.DARKER_BG,
+            border_color=BORDA_PRETA,
+            border_width=BORDA_WIDTH,
+            corner_radius=5,
         )
         senha_border.pack()
 
         self.senha_entry = ctk.CTkEntry(
-            senha_border, placeholder_text="Senha",
-            show="*", width=CAMPO_WIDTH-30, fg_color=self.DARKER_BG,
-            border_width=0, text_color=self.TEXT_COLOR
+            senha_border,
+            placeholder_text="Senha",
+            show="*",
+            width=CAMPO_WIDTH - 30,
+            fg_color=self.DARKER_BG,
+            border_width=0,
+            text_color=self.TEXT_COLOR,
         )
         self.senha_entry.pack(side="left", padx=0)
 
         self.toggle_conf_btn = ctk.CTkButton(
-            senha_border, text="👁", width=30, height=28,
-            fg_color=self.DARKER_BG, hover_color=self.DARK_FRAME,
-            command=self.toggle_confirmar_senha, corner_radius=0, border_width=0
+            senha_border,
+            text="👁",
+            width=30,
+            height=28,
+            fg_color=self.DARKER_BG,
+            hover_color=self.DARK_FRAME,
+            command=self.toggle_confirmar_senha,
+            corner_radius=0,
+            border_width=0,
         )
         self.toggle_conf_btn.pack(side="right", padx=0)
 
         cadastro_button = ctk.CTkButton(
             self.right_frame,
-            text="Cadastrar", 
+            text="Cadastrar",
             width=CAMPO_WIDTH,
             fg_color="white",
             hover_color="gray",
             text_color="black",
             font=("Arial", 11, "bold"),
             corner_radius=5,
-            command=self.cadastrar        )
+            command=self.cadastrar,
+        )
         cadastro_button.pack(padx=CAMPO_PADX)
 
-        botoes_frame = ctk.CTkFrame(
-            self.right_frame,
-            fg_color=self.DARK_FRAME
-        )
+        botoes_frame = ctk.CTkFrame(self.right_frame, fg_color=self.DARK_FRAME)
         botoes_frame.pack(pady=10)
 
         tela_login = ctk.CTkButton(
@@ -246,12 +260,13 @@ class CadastroApp :
             hover_color=self.DARKER_BG,
             text_color=self.SECONDARY_TEXT,
             border_width=0,
-            command=self.abrir_login
+            command=self.abrir_login,
         )
         tela_login.pack(side="left", padx=10)
 
     def abrir_login(self):
-        return self.controller.abrir_login() 
+        return self.controller.abrir_login()
+
     def abrir_dashboard(self):
         return self.controller.abrir_dashboard()
 
@@ -276,16 +291,33 @@ class CadastroApp :
         data_nasc = self.data_nasc_entry.get()
 
         if not validar_nome(nome):
-             messagebox.showwarning("Atenção", "Nome inválido!")
+            messagebox.showwarning("Atenção", "Nome inválido!")
         elif not validar_cpf(cpf):
-             messagebox.showwarning("Atenção", "CPF inválido!")
+            messagebox.showwarning("Atenção", "CPF inválido!")
         elif not validar_email(email):
-             messagebox.showwarning("Atenção", "Email inválido!")
+            messagebox.showwarning("Atenção", "Email inválido!")
         elif not validar_telefone(telefone):
             messagebox.showwarning("Atenção", "Número de telefone inválido")
         else:
-            client_register(nome, cpf, email, senha, telefone, data_nasc, foto_perfil = atribuir_imagem_aleatoria())
+            client_register(
+                nome,
+                cpf,
+                email,
+                senha,
+                telefone,
+                data_nasc,
+                foto_perfil=atribuir_imagem_aleatoria(),
+            )
+            time.sleep(1)
+            self.controller.USER_EXISTS, self.controller.USER_INDEX = client_login(
+                cpf, senha
+            )
 
+            if self.controller.USER_EXISTS:
+                self.app.destroy()
+                self.controller.abrir_dashboard()
+            else:
+                messagebox.showerror("Erro", "CPF ou senha incorretos!")
 
     def run(self):
         self.app.mainloop()

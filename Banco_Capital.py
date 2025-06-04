@@ -4,12 +4,15 @@ from src.view.dashboard import DashboardApp
 from src.view.cadastro import CadastroApp
 from src.view.transferencia import TransferenciaApp
 from src.view.conta import ContaApp
+
+
 class AppController:
     def __init__(self):
         self.telas = []  # Lista que armazena as telas
         self.abrir_login()
         self.USER_INDEX
         self.USER_EXISTS
+
     def abrir_login(self):
         # Fecha a tela anterior, se existir
         if self.telas:
@@ -37,7 +40,7 @@ class AppController:
         dash.run()
 
     def abrir_cadastro(self):
-    # Fecha a tela anterior
+        # Fecha a tela anterior
         if self.telas:
             try:
                 self.telas[-1].app.destroy()
@@ -50,7 +53,7 @@ class AppController:
         cadastro.run()
 
     def abrir_transferencia(self):
-    # Fecha a tela anterior
+        # Fecha a tela anterior
         if self.telas:
             try:
                 self.telas[-1].app.destroy()
@@ -63,7 +66,7 @@ class AppController:
         tranferencia.run()
 
     def abrir_conta(self):
-# Fecha a tela anterior
+        # Fecha a tela anterior
         if self.telas:
             try:
                 self.telas[-1].app.destroy()
@@ -76,7 +79,7 @@ class AppController:
         conta.run()
 
     def abrir_forgoutKey(self):
-# Fecha a tela anterior
+        # Fecha a tela anterior
         if self.telas:
             try:
                 self.telas[-1].app.destroy()
@@ -89,7 +92,5 @@ class AppController:
         forgout.run()
 
 
-
 if __name__ == "__main__":
     p1 = AppController()
-    

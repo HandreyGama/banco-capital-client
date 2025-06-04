@@ -1,4 +1,5 @@
 from ..credencial_screen.server_handler.server_requests import *
+from ..gerar_grafico_transferencias import *
 import pwinput
 
 user_index = 0
@@ -34,8 +35,10 @@ def bank_menu():
     elif user_input == "2":
         print("=" * 6 + " INICIANDO TRANSFERÊNCIA " + "=" * 6)
         print("")
+        saldo = (client_informacoes(user_index))["saldo"]
         while True:
             valor_transferencia_invalido = False
+
             numero_conta = input("Informe o número de conta:")
             if numero_conta.isnumeric() == False:
                 print("[ERRO] Número de conta inválido, digite novamente.")
@@ -61,7 +64,7 @@ def bank_menu():
             confirmar_transferencia = input("confirmar transferencia(s/n):")
             if confirmar_transferencia.lower() == "s":
                 status = client_tranferencia(
-                    user_index, valor_transferencia, numero_conta
+                    user_index, valor_transferencia, numero_conta, saldo
                 )
                 if status == True:
                     break
@@ -79,6 +82,8 @@ def bank_menu():
 
         pass
     elif user_input == "3":
+        client_gerar_grafico_transferencias(user_index)
+        client_gerar_grafico_saldo(user_index)
         pass
     elif user_input == "4":
         print("=" * 6 + " EXTRATO DA CONTA " + 6 * "=")

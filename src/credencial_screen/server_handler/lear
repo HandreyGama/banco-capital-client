@@ -107,8 +107,7 @@ def client_get_user_target(numero_conta):
     client.send(numero_conta.encode("utf-8"))
     client_target_nome = client.recv(1024).decode("utf-8")
     print(client_target_nome)
-    objeto = json.loads(client_target_nome)
-    return objeto
+    return json.loads(client_target_nome)
 
 
 def client_update_info(user_option, user_new_info, user_index):
