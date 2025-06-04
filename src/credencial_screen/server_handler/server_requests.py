@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 from .server_operations import *
 from src.view.assets.default_photos import *
 
-HOST = "127.0.0.1"
+HOST = "172.28.60.230"
 PORT = 69
 
 
