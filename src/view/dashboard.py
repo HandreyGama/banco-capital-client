@@ -25,7 +25,8 @@ class DashboardApp:
         self.VERMELHO_LIGTH = "#EE5F5F"
         self.VERMELHO_BLACK = "#BC1616"
         
-        user = client_informacoes(self.controller.USER_INDEX)
+        self.user = client_informacoes(self.controller.USER_INDEX)
+        self.transacoes = self.user["transferencias"]
 
         # Fonte com CTkFont
         self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=24, weight="bold")
@@ -139,14 +140,14 @@ class DashboardApp:
         # Título e saudação
         label_dashboard = ctk.CTkLabel(
             master=frame2,
-            text=f"Dashboard | {user['numero_conta']}",
+            text=f"Dashboard | {self.user['numero_conta']}",
             font=self.AFACAD_BOLD,
             text_color=self.BLACK_BG,
             fg_color="transparent"
         )
         label_dashboard.place(x=160, y=20, anchor="nw")
 
-        user_name = user["nome"].split()
+        user_name = self.user["nome"].split()
 
         # Container para foto + saudação (juntos)
         user_info_frame = ctk.CTkFrame(
@@ -180,7 +181,7 @@ class DashboardApp:
         icon1 = ctk.CTkImage(Image.open("src/view/assets/icons/dinheiro2.png"), size=(28, 22))
         ctk.CTkLabel(card1, image=icon1, text="").place(x=15, y=15)
         ctk.CTkLabel(card1, text="Conta corrente", font=self.AFACAD_REGULAR, text_color="white").place(x=60, y=20)
-        ctk.CTkLabel(card1, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="white").place(x=15, y=55)
+        ctk.CTkLabel(card1, text=f"R${self.user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="white").place(x=15, y=55)
         ctk.CTkLabel(card1, text="Economize para poder crescer!", font=("Arial", 11), text_color="#cbd5e1").place(x=15, y=90)
 
 
@@ -191,29 +192,57 @@ class DashboardApp:
         icon2 = ctk.CTkImage(Image.open("src/view/assets/icons/investir3.png"), size=(28, 22))
         ctk.CTkLabel(card2, image=icon2, text="").place(x=15, y=15)
         ctk.CTkLabel(card2, text="Carteira de investimento", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
-        ctk.CTkLabel(card2, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
+        ctk.CTkLabel(card2, text=f"R${self.user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
         ctk.CTkLabel(card2, text="↑", font=("Arial", 13, "bold"), text_color="#f87171").place(x=140, y=60)
         ctk.CTkLabel(card2, text="A pressa é inimiga da perfeição!)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
 
-        # CARD 3 - Unique Customers
-        card3 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
+        ultima_recebida = None
+        for t in reversed(self.transacoes):                             # percorre de trás-para-frente
+            if t[1].startswith("+"):                                   # recebida tem sinal +
+                ultima_recebida = t
+                break
+
+        if ultima_recebida:
+            # “+200” -> “R$200,00”
+            valor_bruto = ultima_recebida[1][1:]                        # remove o +
+            valor_formatado = f"R${valor_bruto.replace('.', ',')}"
+        else:
+            valor_formatado = "R$0,00"
+
+        # CARD 3 -
+        card3 = ctk.CTkFrame(frame2, width=200, height=120,
+                             corner_radius=20, fg_color=self.BRANCO_BG_CARD)
         card3.place(x=676, y=70)
 
         icon3 = ctk.CTkImage(Image.open("src/view/assets/icons/transferir2.png"), size=(28, 22))
         ctk.CTkLabel(card3, image=icon3, text="").place(x=15, y=15)
-        ctk.CTkLabel(card3, text="Última tranferência recebida", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
-        ctk.CTkLabel(card3, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
-        ctk.CTkLabel(card3, text="↓", font=("Arial", 13, "bold"), text_color="#4ade80").place(x=140, y=60)
-        ctk.CTkLabel(card3, text="Compared to ($12,840 last year)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
+        ctk.CTkLabel(card3, text="Última transferência recebida",
+                     font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
 
-        # CARD 4 - Net Sales
+        # <<< ESTA linha usa o valor calculado >>>
+        ctk.CTkLabel(card3, text=valor_formatado,
+                     font=("Arial", 20, "bold"),
+                     text_color="black").place(x=15, y=55)
+
+        ctk.CTkLabel(card3, text="↓", font=("Arial", 13, "bold"),
+                     text_color="#4ade80").place(x=140, y=60)
+
+        if ultima_recebida:
+            data_txt = ultima_recebida[2]                               # AAAA-MM-DD
+            legenda = f"Recebido em {data_txt}"
+        else:
+            legenda = "Nenhuma transferência recebida"
+        ctk.CTkLabel(card3, text=legenda, font=("Arial", 11),
+                     text_color="#94a3b8").place(x=15, y=90)
+
+        # CARD 4 -
         card4 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
         card4.place(x=929, y=70)
 
         icon4 = ctk.CTkImage(Image.open("src/view/assets/icons/transferir2.png"), size=(28, 22))
         ctk.CTkLabel(card4, image=icon4, text="").place(x=15, y=15)
         ctk.CTkLabel(card4, text="Última transferência enviada", font=self.AFACAD_REGULAR, text_color="black").place(x=60, y=20)
-        ctk.CTkLabel(card4, text=f"R${user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
+        ctk.CTkLabel(card4, text=f"R${self.user['saldo'].replace('.',',')}", font=("Arial", 20, "bold"), text_color="black").place(x=15, y=55)
         ctk.CTkLabel(card4, text="+3.8% ↑", font=("Arial", 13, "bold"), text_color="#4ade80").place(x=140, y=60)
         ctk.CTkLabel(card4, text="Compared to ($8,569 last year)", font=("Arial", 11), text_color="#94a3b8").place(x=15, y=90)
 
