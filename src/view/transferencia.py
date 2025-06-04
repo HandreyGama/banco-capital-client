@@ -131,17 +131,20 @@ class TransferenciaApp:
                 text_color=self.VERMELHO,
                 font=self.AFACAD_BOLD,
             ).pack(pady=20)
+        if self.input_valor and self.input_valor.winfo_exists():
+            self.valor_transferencia = self.input_valor.get()
+        else:
+            print("valor não encontrado!")
 
     def realizar_transferencia(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
-            self.valor_transferencia = self.input_valor.get()
-            client_tranferencia(
-                self.controller.USER_INDEX,
-                self.valor_transferencia,
-                self.num_conta,
-                self.saldo_client,
-            )
+        client_tranferencia(
+            self.controller.USER_INDEX,
+            self.valor_transferencia,
+            self.num_conta,
+            self.saldo_client,
+        )
         sucesso = ctk.CTkLabel(
             self.main_frame,
             text="✅ Transferência realizada com sucesso!",
