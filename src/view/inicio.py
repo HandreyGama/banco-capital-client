@@ -145,6 +145,7 @@ class LoginApp:
             hover_color=self.DARKER_BG,
             text_color=self.SECONDARY_TEXT,
             border_width=0,
+            command=self.abrir_forgout
         )
         esquecisenha.pack(side="left", padx=10)
 
@@ -163,6 +164,8 @@ class LoginApp:
 
     def abrir_cadastro(self):
         return self.controller.abrir_cadastro()    
+    def abrir_forgout(self):
+        return self.controller.abrir_forgoutKey()      
     def toggle_senha(self):
         if self.senha_entry.cget("show") == "":
             self.senha_entry.configure(show="*")

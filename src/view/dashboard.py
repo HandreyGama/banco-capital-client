@@ -110,6 +110,7 @@ class DashboardApp:
             width=120,
             height=25,
             corner_radius=15,
+            command=self.irParaConta
             
         )
         btn_conta.pack(anchor="w", padx=10, pady=(0, 10))
@@ -219,7 +220,9 @@ class DashboardApp:
 
   
 
-
+    def irParaConta(self):
+        self.app.destroy()
+        self.controller.abrir_conta()
     def voltarParaLogin(self):
         self.app.destroy()
         self.controller.abrir_login()

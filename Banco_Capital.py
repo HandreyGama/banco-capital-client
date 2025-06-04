@@ -1,7 +1,9 @@
+from src.view.forgou_key import EsqueciSenhaApp
 from src.view.inicio import LoginApp
 from src.view.dashboard import DashboardApp
 from src.view.cadastro import CadastroApp
 from src.view.transferencia import TransferenciaApp
+from src.view.conta import ContaApp
 class AppController:
     def __init__(self):
         self.telas = []  # Lista que armazena as telas
@@ -27,7 +29,7 @@ class AppController:
             try:
                 self.telas[-1].app.destroy()
             except Exception as e:
-                print("Erro ao fechar tela de login:", e)
+                print("Erro ao fechar tela anterior", e)
 
         # Cria tela de dashboard e adiciona à lista
         dash = DashboardApp(controller=self)
@@ -40,7 +42,7 @@ class AppController:
             try:
                 self.telas[-1].app.destroy()
             except Exception as e:
-                print("Erro ao fechar tela de login:", e)
+                print("Erro ao fechar tela anterior", e)
 
         # Cria tela de dashboard e adiciona à lista
         cadastro = CadastroApp(controller=self)
@@ -53,12 +55,38 @@ class AppController:
             try:
                 self.telas[-1].app.destroy()
             except Exception as e:
-                print("Erro ao fechar tela de login:", e)
+                print("Erro ao fechar a tela anterior", e)
 
         # Cria tela de dashboard e adiciona à lista
         tranferencia = TransferenciaApp(controller=self)
         self.telas.append(tranferencia)
         tranferencia.run()
+
+    def abrir_conta(self):
+# Fecha a tela anterior
+        if self.telas:
+            try:
+                self.telas[-1].app.destroy()
+            except Exception as e:
+                print("Erro ao fechar a tela anterior", e)
+
+        # Cria tela de dashboard e adiciona à lista
+        conta = ContaApp(controller=self)
+        self.telas.append(conta)
+        conta.run()
+
+    def abrir_forgoutKey(self):
+# Fecha a tela anterior
+        if self.telas:
+            try:
+                self.telas[-1].app.destroy()
+            except Exception as e:
+                print("Erro ao fechar a tela anterior", e)
+
+        # Cria tela de dashboard e adiciona à lista
+        forgout = EsqueciSenhaApp(controller=self)
+        self.telas.append(forgout)
+        forgout.run()
 
 
 

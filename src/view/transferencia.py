@@ -1,92 +1,107 @@
-
 import customtkinter as ctk
 from PIL import Image
 from src.credencial_screen.server_handler.server_requests import *
+
 ctk.set_appearance_mode("dark")
 
 class TransferenciaApp:
-
-    def __init__(self,controller):
+    def __init__(self, controller):
         self.controller = controller
         self.app = ctk.CTk()
         self.app.geometry("1224x664")
         self.app.title("Dashboard - Banco CAPITAL")
-        self.app.minsize(1224, 664)
         self.app.resizable(False, False)
-        # Cores
+
+        # Paleta de cores
         self.BLACK_BG = "#0a0a0a"
-        self.DOURADO_BANCO_CAPITAL = "#C9A358"
-        self.BRANCO_BG = "#D9D9D9"
-        self.BRANCO_BG_CARD = "#E9E6E6"
-        self.DOURADO_LIGTH = "#DBB96E"
-        self.DOURADO_BLACK = "#B68C43"
+        self.DOURADO = "#C9A358"
         self.VERDE_LIGTH = "#74C88D"
-        self.VERDE_BLACK = "#339651"
-        self.VERMELHO_LIGTH = "#EE5F5F"
-        self.VERMELHO_BLACK = "#BC1616"
-        
-        user = client_informacoes(self.controller.USER_INDEX)
+        self.VERMELHO = "#FF4C4C"
+        self.BRANCO = "#F0F0F0"
 
-        # Fonte com CTkFont
-        self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=24, weight="bold")
-        self.AFACAD_REGULAR = ctk.CTkFont(family="Afacad", size=15, weight="normal")
+        # Fontes
+        self.AFACAD_BOLD = ctk.CTkFont(family="Afacad", size=20, weight="bold")
+        self.AFACAD_REGULAR = ctk.CTkFont(family="Afacad", size=14)
 
-        self.AFACAD_BOLD10 = ctk.CTkFont(family="Afacad", size=10, weight="bold")
-        self.AFACAD_BOLD15 = ctk.CTkFont(family="Afacad", size=15, weight="bold")
-        self.AFACAD_REGULAR20 = ctk.CTkFont(family="Afacad", size=20, weight="normal")
+        self.user = client_informacoes(self.controller.USER_INDEX)
+        self.destinatario = None
 
-        # Frame principal
-        frame = ctk.CTkFrame(master=self.app)
-        frame.pack(fill="both", expand=True)
+        self.main_frame = ctk.CTkFrame(self.app, fg_color=self.BLACK_BG)
+        self.main_frame.pack(fill="both", expand=True)
 
-        def criar_botao(master, texto="", caminho_icon='', cor_fundo="transparent",command=None):
+        self.build_interface()
 
-            imagem_icon = Image.open(caminho_icon).resize((24, 24))
-            icon = ctk.CTkImage(light_image=imagem_icon, size=(24, 24))
-            return ctk.CTkButton(
-                master=master,
-                image=icon,
-                text=texto,
-                compound="left",
-                font=self.AFACAD_REGULAR,
-                fg_color=cor_fundo,
-                text_color="white" if cor_fundo == "transparent" else "white",
-                hover_color="#1a1a1a" if cor_fundo == "transparent" else self.DOURADO_BLACK,
-                anchor="w",
-                width=120,
-                height=40,
-                corner_radius=6,
-                command=command
-            )
-        
-        btn_voltar = criar_botao(frame, texto="Voltar", caminho_icon='src/view/assets/icons/voltar.png',command=self.voltarParaDashboard)
-        btn_voltar.place(x=20, y=20)
-        
+    def build_interface(self):
+        # Botão voltar
+        voltar = ctk.CTkButton(self.main_frame, text="← Voltar", command=self.voltar, fg_color="transparent", text_color=self.DOURADO, font=self.AFACAD_BOLD, hover_color="#1a1a1a")
+        voltar.place(x=20, y=20)
 
-        user_info_frame = ctk.CTkFrame(master=frame, fg_color=self.BRANCO_BG, corner_radius=0)
-        user_info_frame.pack(fill="both", expand=True)
+        # Área de transferência
+        self.area = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.area.place(relx=0.5, rely=0.5, anchor="center")
 
-        # Foto de perfil
+        # Lado do remetente
+        self.remetente_frame = ctk.CTkFrame(self.area, width=500, height=400, corner_radius=15, fg_color="#1f1f1f")
+        self.remetente_frame.pack(side="left", padx=30, pady=20)
+        self.remetente_frame.pack_propagate(False)
+        self.carregar_usuario(self.remetente_frame, self.user, "Você")
+
+        # Lado do destinatário
+        self.destinatario_frame = ctk.CTkFrame(self.area, width=500, height=400, corner_radius=15, fg_color="#1f1f1f")
+        self.destinatario_frame.pack(side="right", padx=30, pady=20)
+        self.destinatario_frame.pack_propagate(False)
+        self.input_conta = ctk.CTkEntry(self.destinatario_frame, placeholder_text="Número da conta", width=250)
+        self.input_conta.pack(pady=20)
+        self.btn_verificar = ctk.CTkButton(self.destinatario_frame, text="Verificar", command=self.verificar_conta)
+        self.btn_verificar.pack()
+
+    def carregar_usuario(self, frame, dados, titulo):
+        ctk.CTkLabel(frame, text=titulo, font=self.AFACAD_BOLD, text_color=self.DOURADO).pack(pady=10)
+
         try:
-            imagem_perfil = Image.open(user.get("foto_perfil", {}).get("avatar", {})).resize((40, 40))
+            imagem = Image.open(dados["foto_perfil"]["avatar"]).resize((60, 60))
         except:
-            imagem_perfil = Image.open("src/view/assets/logotype/banco-capital.png").resize((40, 40))
+            imagem = Image.open("src/view/assets/logotype/banco-capital.png").resize((60, 60))
 
-        perfil_ctk_image = ctk.CTkImage(light_image=imagem_perfil, size=(40, 40))
-        label_foto = ctk.CTkLabel(master=user_info_frame, image=perfil_ctk_image, text="", fg_color="transparent")
-        # Saudação
-        label_user = ctk.CTkLabel(
-            master=user_info_frame,
-            text=f"Olá",
-            font=self.AFACAD_BOLD,
-            text_color=self.BLACK_BG,
-            fg_color="transparent"
-        )
-        label_user.pack(side="left", padx=(0, 10))  # texto primeiro, padding à direita
-        label_foto.pack(side="left")               # imagem depois
+        foto = ctk.CTkImage(imagem)
+        ctk.CTkLabel(frame, image=foto, text="").pack()
+        ctk.CTkLabel(frame, text=f"Nome: {dados['nome']}", font=self.AFACAD_REGULAR, text_color="white").pack(pady=4)
+        ctk.CTkLabel(frame, text=f"Conta: {dados['numero_conta']}", font=self.AFACAD_REGULAR, text_color="white").pack(pady=4)
+        if titulo == "Você":
+            ctk.CTkLabel(frame, text=f"Saldo: R${float(dados['saldo']):.2f}", font=self.AFACAD_REGULAR, text_color=self.VERDE_LIGTH).pack(pady=4)
 
+    def verificar_conta(self):
+        num_conta = self.input_conta.get()
+        self.destinatario = client_get_user_target(num_conta)
 
-    def voltarParaDashboard(self):
+        for widget in self.destinatario_frame.winfo_children():
+            widget.destroy()
+
+        if self.destinatario:
+            self.carregar_usuario(self.destinatario_frame, self.destinatario, "Destinatário")
+            self.input_valor = ctk.CTkEntry(self.destinatario_frame, placeholder_text="Valor", width=200)
+            self.input_valor.pack(pady=10)
+            self.btn_transferir = ctk.CTkButton(self.destinatario_frame, text="Transferir", fg_color=self.DOURADO, command=self.realizar_transferencia)
+            self.btn_transferir.pack(pady=10)
+        else:
+            ctk.CTkLabel(self.destinatario_frame, text="Usuário não encontrado.", text_color=self.VERMELHO, font=self.AFACAD_BOLD).pack(pady=20)
+
+    def realizar_transferencia(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+        sucesso = ctk.CTkLabel(self.main_frame, text="✅ Transferência realizada com sucesso!", font=self.AFACAD_BOLD, text_color=self.VERDE_LIGTH)
+        sucesso.place(relx=0.5, rely=0.4, anchor="center")
+
+        novo = ctk.CTkButton(self.main_frame, text="Nova transferência", command=self.reiniciar, fg_color=self.DOURADO)
+        novo.place(relx=0.5, rely=0.5, anchor="center")
+
+    def reiniciar(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+        self.build_interface()
+
+    def voltar(self):
         self.app.destroy()
         self.controller.abrir_dashboard()
 
