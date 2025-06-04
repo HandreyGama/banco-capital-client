@@ -185,7 +185,7 @@ class DashboardApp:
         ctk.CTkLabel(card1, text="Economize para poder crescer!", font=("Arial", 11), text_color="#cbd5e1").place(x=15, y=90)
 
 
-         # CARD 2 - Avg. Order Amount
+         # CARD 2 -
         card2 = ctk.CTkFrame(frame2, width=200, height=120, corner_radius=20, fg_color=self.BRANCO_BG_CARD)
         card2.place(x=423, y=70)
 
