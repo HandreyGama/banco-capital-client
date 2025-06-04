@@ -58,7 +58,7 @@ def bank_menu():
                 + " DADOS DA TRANSFERENCIA"
                 + "=" * 6
                 + "\n"
-                + f"* nome:{transferencia_target}\n"
+                + f"* nome:{transferencia_target["nome"]}\n"
                 + f"* Valor:{valor_transferencia}"
             )
             confirmar_transferencia = input("confirmar transferencia(s/n):")
